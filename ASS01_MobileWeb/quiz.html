@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบความรู้ทั่วไป</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>แบบทดสอบความรู้ทั่วไป เรื่องภูมิศาสตร์</h1>
+        <div id="quiz"></div>
+        <div class="score-display" id="score"></div>
+        <button onclick="checkAnswers()">ตรวจคำตอบ</button>
+    </div>
+
+    <script>
+    
+        const quizData = {
+            "quizTitle": "แบบทดสอบความรู้ทั่วไป",
+            "questions": [
+            {
+	   
+            "question": "ประเทศใดที่มีพื้นที่ใหญ่ที่สุดในโลก?",
+            "choices": ["สหรัฐอเมริกา", "จีน", "รัสเซีย", "แคนาดา"],
+            "correctAnswer": 2,
+            "explanation": "รัสเซีย"
+        },
+        {
+            "question": "ภูเขาที่สูงที่สุดในโลกคืออะไร?",
+            "choices": ["ภูเขาเอเวอเรสต์", "ภูเขาคิลิมันจาโร", "ภูเขามอนต์บลองก์", "ภูเขาเคนย่า"],
+            "correctAnswer": 0,
+            "explanation":"ภูเขาเอเวอเรสต์"
+        },
+
+        {
+            "question": "แม่น้ำที่ยาวที่สุดในโลกคืออะไร?",
+            "choices": ["แม่น้ำไนล์", "แม่น้ำแอมะซอน", "แม่น้ำแยงซี", "แม่น้ำมิสซิสซิปปี"],
+            "correctAnswer": 0,
+            "explanation":"แม่น้ำไนล์"
+        },
+        {
+            "question": "ทะเลสาบน้ำจืดที่ใหญ่ที่สุดในโลกคืออะไร?",
+            "choices": ["ทะเลสาบสุพีเรีย", "ทะเลสาบแคสเปียน", "ทะเลสาบวิกตอเรีย", "ทะเลสาบไบคาล"],
+            "correctAnswer": 0,
+            "explanation":"ทะเลสาบสุพีเรีย"
+        },
+        {
+            "question": "เมืองหลวงของออสเตรเลียคือเมืองใด?",
+            "choices": ["ซิดนีย์", "แคนเบอร์รา", "เมลเบิร์น", "บริสเบน"],
+            "correctAnswer": 1,
+            "explanation":"แคนเบอร์รา"
+        },
+        {
+            "question": "ประเทศใดในโลกที่มีประชากรมากที่สุด?",
+            "choices": ["อินเดีย", "สหรัฐอเมริกา", "จีน", "อินโดนีเซีย"],
+            "correctAnswer": 2,
+            "explanation":"จีน"
+        },
+        {
+            "question": "ทะเลทรายที่ใหญ่ที่สุดในโลกคืออะไร?",
+            "choices": ["ทะเลทรายซาฮารา", "ทะเลทรายโกบี", "ทะเลทรายอาตากามา", "ทะเลทรายโมฮาวี"],
+            "correctAnswer": 0,
+            "explanation":"ทะเลทรายซาฮารา"
+        },
+        {
+            "question": "ประเทศใดที่มีเกาะมากที่สุดในโลก?",
+            "choices": ["แคนาดา", "อินโดนีเซีย", "สวีเดน", "ฟิลิปปินส์"],
+            "correctAnswer": 2,
+            "explanation":"สวีเดน"
+        },
+        {
+            "question": "ภูเขาที่สูงที่สุดในประเทศไทยคืออะไร?",
+            "choices": ["ดอยอินทนนท์", "ดอยสุเทพ", "ดอยอ่างขาง", "ดอยหลวงเชียงดาว"],
+            "correctAnswer": 0,
+            "explanation":"ดอยอินทนนท์"
+        },
+        {
+            "question": "ทะเลสาบที่ลึกที่สุดในโลกคืออะไร?",
+            "choices": ["ทะเลสาบไบคาล", "ทะเลสาบแคสเปียน", "ทะเลสาบสุพีเรีย", "ทะเลสาบแทนกันยีกา"],
+            "correctAnswer": 0,
+            "explanation":"ทะเลสาบไบคาล"
+        },
+        {
+            "question": "ประเทศที่เล็กที่สุดในโลกคืออะไร?",
+            "choices": ["โมนาโก", "ซานมารีโน", "ลิกเตนสไตน์", "วาติกัน"],
+            "correctAnswer": 3,
+            "explanation": "วาติกัน"
+
+        },
+        {
+            "question": "แม่น้ำโขงไหลผ่านประเทศใดในเอเชียตะวันออกเฉียงใต้มากที่สุด?",
+            "choices": ["ลาว", "เวียดนาม", "ไทย", "กัมพูชา"],
+            "correctAnswer":0,
+            "explanation":"ลาว"
+        },
+        {
+            "question": "ทะเลอันดามันอยู่ทางทิศใดของประเทศไทย?",
+            "choices": ["เหนือ", "ใต้", "ตะวันออก", "ตะวันตก"],
+            "correctAnswer": 3,
+            "explanation":"ตะวันตก"
+        },
+        {
+            "question": "แอฟริกาใต้มีเมืองหลวงกี่แห่ง?",
+            "choices": ["1", "2", "3", "4"],
+            "correctAnswer": 2,
+            "explanation":"3"
+        },
+        {
+            "question": "เกาะบอร์เนียวมีพื้นที่ครอบคลุมกี่ประเทศ?",
+            "choices": ["1 ประเทศ", "2 ประเทศ", "3 ประเทศ", "4 ประเทศ"],
+            "correctAnswer": 2,
+            "explanation":"3 ประเทศ"
+        },
+        {
+            "question": "ภูเขาไฟฟูจิเป็นสัญลักษณ์ของประเทศใด?",
+            "choices": ["จีน", "ญี่ปุ่น", "เกาหลีใต้", "ไต้หวัน"],
+            "acorrectAnswer": 1,
+            "explanation":"ญี่ปุ่น"
+        },
+        {
+            "question": "ทวีปใดที่ไม่มีประชากรอาศัยอยู่ถาวร?",
+            "choices": ["แอนตาร์กติกา", "ออสเตรเลีย", "อเมริกาใต้", "ยุโรป"],
+            "correctAnswer": 0,
+            "explanation":"แอนตาร์กติกา"
+        },
+        {
+            "question": "ทะเลแดงตั้งอยู่ระหว่างสองทวีปใด?",
+            "choices": ["ยุโรปและเอเชีย", "เอเชียและแอฟริกา", "อเมริกาเหนือและใต้", "แอฟริกาและยุโรป"],
+            "correctAnswer": 1,
+            "explanation": "เอเชียและแอฟริกา"
+        },
+        {
+            "question": "แม่น้ำแยงซีอยู่ในประเทศใด?",
+            "choices": ["เกาหลีใต้", "เวียดนาม", "จีน", "อินเดีย"],
+            "correctAnswer": 2,
+            "explanation":"จีน"
+
+        },
+        {
+            "question": "ประเทศใดในยุโรปที่มีภูมิประเทศส่วนใหญ่เป็นภูเขา?",
+            "choices": ["เนเธอร์แลนด์", "สวิตเซอร์แลนด์", "เดนมาร์ก", "สวีเดน"],
+            "correctAnswer": 1,
+            "explanation":"สวิตเซอร์แลนด์"
+
+        }
+
+
+
+
+
+
+
+            ]
+        };
+
+        
+        window.onload = function() {
+            displayQuiz();
+        };
+
+        function displayQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizData.questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <p><strong>ข้อ ${index + 1}:</strong> ${q.question}</p>
+                    <div class="choices">
+                        ${q.choices.map((choices, i) => `
+                            <div class="option">
+                                <input type="radio" name="q${index}" value="${i}" id="q${index}o${i}">
+                                <label for="q${index}o${i}">${choices}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            quizData.questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                const resultDiv = document.getElementById(`result${index}`);
+                resultDiv.style.display = 'block';
+
+                if (!selected) {
+                    resultDiv.className = 'result incorrect';
+                    resultDiv.textContent = 'กรุณาเลือกคำตอบ';
+                    return;
+                }
+
+                if (parseInt(selected.value) === q.correctAnswer) {
+                    score++;
+                    resultDiv.className = 'result correct';
+                    resultDiv.textContent = 'ถูกต้อง! ' + q.explanation;
+                } else {
+                    resultDiv.className = 'result incorrect';
+                    resultDiv.textContent = 'ไม่ถูกต้อง ' + q.explanation;
+                }
+            });
+
+            document.getElementById('score').textContent = 
+                `คะแนนของคุณ: ${score} จาก ${quizData.questions.length} คะแนน (${(score/quizData.questions.length*100).toFixed(2)}%)`;
+        }
+    </script>
+</body>
+</html>
