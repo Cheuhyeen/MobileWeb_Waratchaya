@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบความรู้ภูมิศาสตร์</title>
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.13/dist/vuetify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.13/dist/vuetify.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    *{
+        font-family: kanit;
+    }
+    .headline {
+        font-family: kanit;
+    }
+        .quiz-container { max-width: 800px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-container fluid>
+                <v-row v-if="currentPage === 'start'" class="quiz-container">
+                    <v-col cols="12" class="text-center">
+                        <v-card elevation="2" class="pa-6">
+                            <h1>แบบทดสอบความรู้ทั่วไป เรื่องภูมิศาสตร์</h1>
+                            <v-card-text>
+                                <p>- แบบทดสอบมีทั้งหมด {{ quizData.questions.length }} ข้อ</p>
+                                <p>- เลือกคำตอบที่คิดว่าถูกต้องที่สุด</p>
+                            </v-card-text>
+                            <v-card-actions class="justify-center">
+                                <v-btn color="primary" @click="startQuiz">เริ่มทำแบบทดสอบ</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+
+                <v-row v-else-if="currentPage === 'quiz'" class="quiz-container">
+                    <v-col cols="12">
+                        <v-card elevation="2" class="pa-6">
+                            <h1 >แบบทดสอบความรู้ทั่วไป เรื่องภูมิศาสตร์</h1>
+      
+                            <v-card-text>
+                                <div v-for="(question, index) in quizData.questions" :key="index" class="mb-6">
+                                    <div class="headline mb-2">
+                                       <p> ข้อที่ {{ index + 1 }}: {{ question.question }}</p>
+                                    </div>
+                                    <v-radio-group v-model="selectedAnswers[index]">
+                                      
+                                        <v-radio v-for="(choice, choiceIndex) in question.choices" :key="choiceIndex":label="choice":value="choiceIndex"></v-radio>
+                                    </v-radio-group>
+                                </div>
+
+                            
+                            </v-card-text>
+                            
+                            <v-card-actions>
+                                <v-btn v-if="allQuestionsAnswered" color="primary" block @click="checkAnswers">
+                                    ตรวจคำตอบ
+                                </v-btn>
+                                <v-btn v-elsecolor="warning" block disabled >
+                                    กรุณาตอบให้ครบทุกข้อ
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+
+                <v-row v-else-if="currentPage === 'result'" class="quiz-container">
+                    <v-col cols="12" class="text-center">
+                        <v-card elevation="2" class="pa-6">
+                            <v-card-text>
+                                <div class="display-3 mb-4">
+                                    {{ score }} / {{ quizData.questions.length }}
+                                </div>
+                                <v-btn color="primary" @click="resetQuiz">
+                                    ทำแบบทดสอบอีกครั้ง
+                                </v-btn>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-app>
+    </div>
+
+    <script>
+        
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: {
+                quizData: {
+                    "quizTitle": "แบบทดสอบความรู้ทั่วไป",
+                    "questions": [
+                        {
+                    "question": "ประเทศใดที่มีพื้นที่ใหญ่ที่สุดในโลก?",
+                    "choices": ["สหรัฐอเมริกา", "จีน", "รัสเซีย", "แคนาดา"],
+                    "correctAnswer": 2,
+                    "explanation": "รัสเซีย"
+                },
+                {
+                    "question": "ภูเขาที่สูงที่สุดในโลกคืออะไร?",
+                    "choices": ["ภูเขาเอเวอเรสต์", "ภูเขาคิลิมันจาโร", "ภูเขามอนต์บลองก์", "ภูเขาเคนย่า"],
+                    "correctAnswer": 0,
+                    "explanation":"ภูเขาเอเวอเรสต์"
+                },
+
+                {
+                    "question": "แม่น้ำที่ยาวที่สุดในโลกคืออะไร?",
+                    "choices": ["แม่น้ำไนล์", "แม่น้ำแอมะซอน", "แม่น้ำแยงซี", "แม่น้ำมิสซิสซิปปี"],
+                    "correctAnswer": 0,
+                    "explanation":"แม่น้ำไนล์"
+                },
+                {
+                    "question": "ทะเลสาบน้ำจืดที่ใหญ่ที่สุดในโลกคืออะไร?",
+                    "choices": ["ทะเลสาบสุพีเรีย", "ทะเลสาบแคสเปียน", "ทะเลสาบวิกตอเรีย", "ทะเลสาบไบคาล"],
+                    "correctAnswer": 0,
+                    "explanation":"ทะเลสาบสุพีเรีย"
+                },
+                {
+                    "question": "เมืองหลวงของออสเตรเลียคือเมืองใด?",
+                    "choices": ["ซิดนีย์", "แคนเบอร์รา", "เมลเบิร์น", "บริสเบน"],
+                    "correctAnswer": 1,
+                    "explanation":"แคนเบอร์รา"
+                },
+                {
+                    "question": "ประเทศใดในโลกที่มีประชากรมากที่สุด?",
+                    "choices": ["อินเดีย", "สหรัฐอเมริกา", "จีน", "อินโดนีเซีย"],
+                    "correctAnswer": 2,
+                    "explanation":"จีน"
+                },
+                {
+                    "question": "ทะเลทรายที่ใหญ่ที่สุดในโลกคืออะไร?",
+                    "choices": ["ทะเลทรายซาฮารา", "ทะเลทรายโกบี", "ทะเลทรายอาตากามา", "ทะเลทรายโมฮาวี"],
+                    "correctAnswer": 0,
+                    "explanation":"ทะเลทรายซาฮารา"
+                },
+                {
+                    "question": "ประเทศใดที่มีเกาะมากที่สุดในโลก?",
+                    "choices": ["แคนาดา", "อินโดนีเซีย", "สวีเดน", "ฟิลิปปินส์"],
+                    "correctAnswer": 2,
+                    "explanation":"สวีเดน"
+                },
+                {
+                    "question": "ภูเขาที่สูงที่สุดในประเทศไทยคืออะไร?",
+                    "choices": ["ดอยอินทนนท์", "ดอยสุเทพ", "ดอยอ่างขาง", "ดอยหลวงเชียงดาว"],
+                    "correctAnswer": 0,
+                    "explanation":"ดอยอินทนนท์"
+                },
+                {
+                    "question": "ทะเลสาบที่ลึกที่สุดในโลกคืออะไร?",
+                    "choices": ["ทะเลสาบไบคาล", "ทะเลสาบแคสเปียน", "ทะเลสาบสุพีเรีย", "ทะเลสาบแทนกันยีกา"],
+                    "correctAnswer": 0,
+                    "explanation":"ทะเลสาบไบคาล"
+                },
+                {
+                    "question": "ประเทศที่เล็กที่สุดในโลกคืออะไร?",
+                    "choices": ["โมนาโก", "ซานมารีโน", "ลิกเตนสไตน์", "วาติกัน"],
+                    "correctAnswer": 3,
+                    "explanation": "วาติกัน"
+
+                },
+                {
+                    "question": "แม่น้ำโขงไหลผ่านประเทศใดในเอเชียตะวันออกเฉียงใต้มากที่สุด?",
+                    "choices": ["ลาว", "เวียดนาม", "ไทย", "กัมพูชา"],
+                    "correctAnswer":0,
+                    "explanation":"ลาว"
+                },
+                {
+                    "question": "ทะเลอันดามันอยู่ทางทิศใดของประเทศไทย?",
+                    "choices": ["เหนือ", "ใต้", "ตะวันออก", "ตะวันตก"],
+                    "correctAnswer": 3,
+                    "explanation":"ตะวันตก"
+                },
+                {
+                    "question": "แอฟริกาใต้มีเมืองหลวงกี่แห่ง?",
+                    "choices": ["1", "2", "3", "4"],
+                    "correctAnswer": 2,
+                    "explanation":"3"
+                },
+                {
+                    "question": "เกาะบอร์เนียวมีพื้นที่ครอบคลุมกี่ประเทศ?",
+                    "choices": ["1 ประเทศ", "2 ประเทศ", "3 ประเทศ", "4 ประเทศ"],
+                    "correctAnswer": 2,
+                    "explanation":"3 ประเทศ"
+                },
+                {
+                    "question": "ภูเขาไฟฟูจิเป็นสัญลักษณ์ของประเทศใด?",
+                    "choices": ["จีน", "ญี่ปุ่น", "เกาหลีใต้", "ไต้หวัน"],
+                    "acorrectAnswer": 1,
+                    "explanation":"ญี่ปุ่น"
+                },
+                {
+                    "question": "ทวีปใดที่ไม่มีประชากรอาศัยอยู่ถาวร?",
+                    "choices": ["แอนตาร์กติกา", "ออสเตรเลีย", "อเมริกาใต้", "ยุโรป"],
+                    "correctAnswer": 0,
+                    "explanation":"แอนตาร์กติกา"
+                },
+                {
+                    "question": "ทะเลแดงตั้งอยู่ระหว่างสองทวีปใด?",
+                    "choices": ["ยุโรปและเอเชีย", "เอเชียและแอฟริกา", "อเมริกาเหนือและใต้", "แอฟริกาและยุโรป"],
+                    "correctAnswer": 1,
+                    "explanation": "เอเชียและแอฟริกา"
+                },
+                {
+                    "question": "แม่น้ำแยงซีอยู่ในประเทศใด?",
+                    "choices": ["เกาหลีใต้", "เวียดนาม", "จีน", "อินเดีย"],
+                    "correctAnswer": 2,
+                    "explanation":"จีน"
+
+                },
+                {
+                    "question": "ประเทศใดในยุโรปที่มีภูมิประเทศส่วนใหญ่เป็นภูเขา?",
+                    "choices": ["เนเธอร์แลนด์", "สวิตเซอร์แลนด์", "เดนมาร์ก", "สวีเดน"],
+                    "correctAnswer": 1,
+                    "explanation":"สวิตเซอร์แลนด์"
+
+                }
+                    ]
+                },
+                currentPage: 'start',
+                selectedAnswers: [],
+                score: 0
+            },
+            computed: {
+                allQuestionsAnswered() {
+                    return this.selectedAnswers.filter(answer => answer !== undefined).length === this.quizData.questions.length;
+                }
+            },
+            methods: {
+                startQuiz() {
+                    this.currentPage = 'quiz';
+                    this.selectedAnswers = new Array(this.quizData.questions.length);
+                },
+                checkAnswers() {
+                    this.score = this.selectedAnswers.filter((answer, index) => 
+                        answer === this.quizData.questions[index].correctAnswer
+                    ).length;
+                    this.currentPage = 'result';
+                },
+                resetQuiz() {
+                    this.currentPage = 'start';
+                    this.selectedAnswers = [];
+                    this.score = 0;
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>
