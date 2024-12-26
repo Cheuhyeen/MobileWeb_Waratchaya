@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>แบบทดสอบด้วย ReactJS</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="myapp" class="container p-4"></div>
+    <script type="text/babel">
+      class App extends React.Component {
+        state = {
+          qlist: [],
+          currentQuestion: 0,
+          answers: [],
+          status: 0,
+          score: 0,
+          selectedChoice: null
+        };
+
+        title = <div><b>Work3:</b> แบบทดสอบ JavaScript เบื้องต้น</div>;
+        footer = (
+          <div>
+            By 663380184-7 Waratchaya Chanrat <br />
+            College of Computing, Khon Kaen University
+          </div>
+        );
+
+        constructor() {
+          super();
+          this.load_data();
+        }
+
+        async load_data() {
+          const res = await fetch("quiz.js");
+          const data = await res.json();
+          this.setState({ qlist: data });
+        }
+
+        handleOptionSelect = (index) => {
+          this.setState({ selectedChoice: index });
+        }
+
+        handleSubmitAnswer = () => {
+          if (this.state.selectedChoice !== null) {
+            const { currentQuestion, qlist, answers } = this.state;
+            const updatedAnswers = [...answers, this.state.selectedChoice];
+            const isCorrect = this.state.selectedChoice === qlist[currentQuestion].answer;
+
+            this.setState({
+              answers: updatedAnswers,
+              score: this.state.score + (isCorrect ? 1 : 0),
+              currentQuestion: currentQuestion + 1,
+              status: currentQuestion + 1 >= qlist.length ? 2 : 1,
+              selectedChoice: null
+            });
+          }
+        }
+
+        renderStart() {
+          return (
+            <div className="text-center">
+              <h3>ยินดีต้อนรับเข้าสู่แบบทดสอบ</h3>
+              <button
+                className="btn btn-primary mt-3"
+                onClick={() => this.setState({ status: 1 })}
+              >
+                เริ่มทำแบบทดสอบ
+              </button>
+            </div>
+          );
+        }
+
+        renderQuiz() {
+          const { qlist, currentQuestion, selectedChoice } = this.state;
+          const question = qlist[currentQuestion];
+          return (
+            <div>
+              <h5>
+                ข้อ {currentQuestion + 1}/{qlist.length}: {question.title}
+              </h5>
+              <div className="mt-3">
+                {question.choices.map((choice, index) => (
+                  <div key={index} className="form-check mb-2">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="quizOption"
+                      id={`choice${index}`}
+                      checked={selectedChoice === index}
+                      onChange={() => this.handleOptionSelect(index)}
+                    />
+                    <label className="form-check-label" htmlFor={`choice${index}`}>
+                      {choice}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-3">
+                <button
+                  className="btn btn-primary"
+                  onClick={this.handleSubmitAnswer}
+                  disabled={selectedChoice === null}
+                >
+                  ข้อถัดไป
+                </button>
+              </div>
+            </div>
+          );
+        }
+
+        renderResult() {
+          return (
+            <div className="text-center">
+              <h3>คะแนนของคุณคือ: {this.state.score}/{this.state.qlist.length}</h3>
+              <button
+                className="btn btn-secondary mt-3"
+                onClick={() => this.setState({ status: 0, answers: [], score: 0, currentQuestion: 0 })}
+              >
+                ทำแบบทดสอบใหม่
+              </button>
+            </div>
+          );
+        }
+
+        render() {
+          let content;
+          if (this.state.status === 0) {
+            content = this.renderStart();
+          } else if (this.state.status === 1) {
+            content = this.renderQuiz();
+          } else if (this.state.status === 2) {
+            content = this.renderResult();
+          }
+
+          return (
+            <div className="card">
+              <div className="card-header">{this.title}</div>
+              <div className="card-body">{content}</div>
+              <div className="card-footer">{this.footer}</div>
+            </div>
+          );
+        }
+      }
+
+      const container = document.getElementById("myapp");
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
