@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
+    <script>
+     
+      AFRAME.registerComponent('bunny-animation', {
+        init: function() {
+        
+          this.el.setAttribute('animation__float', {
+            property: 'position',
+            dir: 'alternate',
+            dur: 2000,
+            easing: 'easeInOutSine',
+            loop: true,
+            from: '10 1 -8',
+            to: '10 1.3 -8'
+          });
+          
+       
+          this.el.setAttribute('animation__spin', {
+            property: 'rotation',
+            dur: 5000,
+            easing: 'linear',
+            loop: true,
+            to: '0 360 0'
+          });
+        }
+      });
+    </script>
+  </head>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+</style>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="boxTexture" src="./img/hyeen.jpg">
+        <img id="boxTexture1" src="./img/Starry-Night.jpg" >
+        <img id="boxTexture2" src="./img/gato.jpg" >
+        <img id="marbleTexture" src="/api/placeholder/512/512" alt="Marble texture">
+        <img id="woodTexture" src="/api/placeholder/512/512" alt="Wood texture">
+        <a-asset-item id="bunny-model" src="./model/bunny_gltf.glb"></a-asset-item>
+      </a-assets>
+
+      <a-box position="0 4 0" rotation="0 0 0" width="30" height="8" depth="20" color="#FFFFFF"></a-box>
+      <a-box position="-15 4 0" rotation="0 0 0" width="1" height="8" depth="20" color="#F0F0F0"></a-box>
+      <a-box position="15 4 0" rotation="0 0 0" width="1" height="8" depth="20" color="#F0F0F0"></a-box>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="20" color="#DDDDDD"></a-plane>
+   
+      <a-entity position="-10 7.5 0">
+        <a-cylinder color="#FFFFFF" height="0.2" radius="0.2"></a-cylinder>
+        <a-light type="spot" color="#FFFFFF" intensity="0.8" angle="60" position="0 0 0" rotation="-90 0 0"></a-light>
+      </a-entity>
+      <a-entity position="0 7.5 0">
+        <a-cylinder color="#FFFFFF" height="0.2" radius="0.2"></a-cylinder>
+        <a-light type="spot" color="#FFFFFF" intensity="0.8" angle="60" position="0 0 0" rotation="-90 0 0"></a-light>
+      </a-entity>
+      <a-entity position="10 7.5 0">
+        <a-cylinder color="#FFFFFF" height="0.2" radius="0.2"></a-cylinder>
+        <a-light type="spot" color="#FFFFFF" intensity="0.8" angle="60" position="0 0 0" rotation="-90 0 0"></a-light>
+      </a-entity>
+
+      <a-box position="-3.025 4 -8" rotation="0 0 0" src="#boxTexture1" depth="0.2" height="3.5" width="5">
+        <a-box position="0 -2.5 0.2" rotation="0 0 0" depth="0.4" height="0.2" width="5.4" color="#4A4A4A"></a-box>
+      </a-box>
+
+      <a-box position="4.025 4.65 -8" rotation="0 0 0" src="#boxTexture2" depth="0.2" height="5" width="5">
+        <a-box position="0 -3.2 0.2" rotation="0 0 0" depth="0.4" height="0.2" width="5.4" color="#4A4A4A"></a-box>
+      </a-box>
+
+      <a-box position="-10.025 4 -8" rotation="0 0 0" src="#boxTexture" depth="0.2" height="5" width="4">
+        <a-box position="0 -2.5 0.2" rotation="0 0 0" depth="0.4" height="0.2" width="5.4" color="#4A4A4A"></a-box>
+      </a-box>
+
+      <a-box position="-8.5 1.8 -7.8" rotation="0 0 0" depth="0.2" height="0.5" width="2" color="#2C2C2C">
+        <a-text 
+          value="Waratchay Chanrat\n" 
+          color="#FFFFFF" 
+          position="0 0 0.11" 
+          align="center"
+          scale="0.8 0.8 0.8">
+        </a-text>
+      </a-box>
+      <a-box position="-1.5 1.8 -7.8" rotation="0 0 0" depth="0.2" height="0.5" width="2" color="#2C2C2C">
+        <a-text 
+          value="Vincent van Gogh" 
+          color="#FFFFFF" 
+          position="0 0 0.11" 
+          align="center"
+          scale="0.8 0.8 0.8">
+        </a-text>
+      </a-box>
+      <a-box position="5.5 1.8 -7.8" rotation="0 0 0" depth="0.2" height="0.5" width="2" color="#2C2C2C">
+        <a-text 
+          value="Hyeen" 
+          color="#FFFFFF" 
+          position="0 0 0.11" 
+          align="center"
+          scale="0.8 0.8 0.8">
+        </a-text>
+      </a-box>
+  
+      <a-text 
+        value="Information Technology\n\nWaratchay Chanrat 663380184-7" 
+        color="#000000" 
+        position="0 10 -8" align="center" 
+        scale="3ss 3 2">
+      </a-text>
+
+
+     
+      <a-entity
+        gltf-model="#bunny-model"
+        position="10 1 -8"
+        scale="0.5 0.5 1"
+        bunny-animation>
+      </a-entity>
+
+      
+      <a-cylinder position="-14 0 -9" radius="0.2" height="1.5" color="#2C2C2C"></a-cylinder>
+      <a-cylinder position="14 0 -9" radius="0.2" height="1.5" color="#2C2C2C"></a-cylinder>
+      <a-box position="-3 0.3 -5" rotation="0 0 0" depth="0.8" height="0.4" width="3" color="#2C2C2C"></a-box>
+
+      
+      <a-light type="ambient" color="#FFFFFF" intensity="0.5"></a-light>
+    </a-scene>
+  </body>
+</html>
